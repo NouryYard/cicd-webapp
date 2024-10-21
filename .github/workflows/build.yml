@@ -1,0 +1,29 @@
+---
+name: Build and test
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      # Step 2: Install NodeJS version 20
+      - name: Set up Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      # Step 3: Install dependencies using Yarn
+      - name: Install dependencies
+        run: yarn install
+
+      # Step 4: Lint the code
+      - name: Run ESLint
+        run: yarn lint
