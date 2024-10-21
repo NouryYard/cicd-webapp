@@ -1,0 +1,31 @@
+services:
+  webapp:
+    build: .
+    ports:
+      - "3000:3000"  # Change this to the port your web application runs on
+    environment:
+      - NODE_ENV=production
+      - MYSQL_URL=mysql://user:password@database/dbname
+    depends_on:
+      - database
+
+  database:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: dbname
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  test:
+    build: .
+    command: yarn test
+    depends_on:
+      - webapp
+    environment:
+      - API_URL=http://webapp:3000
+volumes:
+  mysql_data:
+
